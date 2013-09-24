@@ -40,6 +40,16 @@ end
 
 class Bishop <  SlidingPiece
 
+  def move_locations
+    move_locations = []
+    x = position[1]
+    y = position[0]
+    (1..7).each do |index|
+      move_locations << [x+index, y + index] << [x+index, y - index]
+      move_locations << [x-index, y + index] << [x-index, y - index]
+    end
+    move_locations.select{|position| position.all?{|num| num >= 0 && num < 8}}
+  end
 end
 
 class Pawn < Piece
