@@ -8,11 +8,8 @@ class Board
 
   private
   def populate_chess_board
-
-
   end
 end
-
 
 class Piece
   attr_reader :color, :board, :position
@@ -22,6 +19,27 @@ class Piece
     @board = board
     @position = position
   end
+end
+
+class SlidingPiece < Piece
+  def valid_moves
+  end
+end
+
+class Rook < SlidingPiece
+  def move_locations
+    move_locations = []
+    (0..7).each do |index|
+      move_locations << [index, position[1]] << [position[0], index]
+    end
+    move_locations.delete(position)
+    move_locations
+  end
+end
+
+
+class Bishop <  SlidingPiece
+
 end
 
 class Pawn < Piece
@@ -43,7 +61,6 @@ class Pawn < Piece
       move_locations << [position[0] - 2, position[1]] if first_move
     end
     move_locations
-    #if color = white then moves can be +1 or +2 (if firstmove) if attacking a piece move is +1 +1 or +1 -1
+    #Write code to make attacking stuff blah
   end
-
 end
