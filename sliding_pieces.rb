@@ -19,9 +19,11 @@ class Bishop <  SlidingPiece
     move_locations = []
     x = position[1]
     y = position[0]
+
+
     (1..7).each do |index|
-      move_locations << [x+index, y + index] << [x+index, y - index]
-      move_locations << [x-index, y + index] << [x-index, y - index]
+      move_locations << [y+index, x + index] << [y+index, x - index]
+      move_locations << [y-index, y + index] << [y-index, y - index]
     end
     move_locations.select{|position| position.all?{|num| num >= 0 && num < 8}}
   end
@@ -35,3 +37,4 @@ class Queen < SlidingPiece
     move_locations
   end
 end
+

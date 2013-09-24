@@ -6,6 +6,17 @@ class Piece
     @board = board
     @position = position
   end
+
+  def valid_move?(pos)
+    if self.move_locations.include?(pos)
+
+
+      #Check if you are in check
+
+    else
+      false
+    end
+  end
 end
 
 class Pawn < Piece
@@ -27,6 +38,6 @@ class Pawn < Piece
       move_locations << [position[0] - 2, position[1]] if first_move
     end
     move_locations
-    #Write code to make attacking stuff blah
+    #Write code to make attacking stuff and ensure cannot take in front
   end
 end
