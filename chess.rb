@@ -52,6 +52,16 @@ class Bishop <  SlidingPiece
   end
 end
 
+class Queen < SlidingPiece
+
+  def move_locations
+    move_locations = []
+    move_locations += Bishop.new(nil, nil, position).move_locations
+    move_locations += Rook.new(nil, nil, position).move_locations
+    move_locations
+  end
+end
+
 class Pawn < Piece
   attr_accessor :first_move
 
@@ -74,3 +84,6 @@ class Pawn < Piece
     #Write code to make attacking stuff blah
   end
 end
+
+q = Queen.new(nil, nil, [4,4])
+p q.move_locations
