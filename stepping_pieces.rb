@@ -1,13 +1,25 @@
 class SteppingPiece < Piece
+  def valid_move?(pos)
+    return true unless board[pos[0]]
+    return true unless board[pos[0]][pos[1]]
+    if self.color == board[pos[0]][pos[1]].color
+      false
+    else
+      true
+    end
+  end
 
+  def valid_moves
+    move_locations.select{|pos| valid_move?(pos)}
+  end
 end
 
 
 class King < SteppingPiece
   def move_locations
     move_locations = []
-    x = position[1]
-    y = position[0]
+    y = position[1]
+    x = position[0]
 
     move_locations << [x+1, y+1] << [x+1, y-1] << [x-1, y+1] << [x-1, y-1]
     move_locations << [x+1, y] << [x-1, y] << [x, y+1] << [x, y-1]

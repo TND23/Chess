@@ -1,13 +1,13 @@
 class SlidingPiece < Piece
   def valid_move?(pos)
+    #Refactor
+    return true unless board[pos[0]]
     if board[pos[0]][pos[1]]
       if self.color == board[pos[0]][pos[1]].color
-        false
+        return false
       end
-    else
-      puts board[pos[0][pos[1]]]
-      true
     end
+    true
   end
 end
 

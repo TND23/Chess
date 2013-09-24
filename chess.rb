@@ -62,13 +62,15 @@ b = Board.new
 # pawn = Pawn.new(:black, b.board, [1,0])
 # p pawn.move_locations
 
-queen = Queen.new(:black, b.board, [2,3])
-p queen.move_locations
+# queen = Queen.new(:black, b.board, [2,3])
+# p queen.move_locations
 
 # bishop = Bishop.new(:black, b.board, [2,3])
 # p bishop.move_locations
 
-
+king = King.new(:black, b.board, [0,4])
+p king.move_locations
+p king.valid_moves
 
 
 # def print_board
