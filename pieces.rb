@@ -1,4 +1,5 @@
 class Piece
+  include ChessHelpers
   attr_reader :color, :board, :picture
   attr_accessor :position
 
@@ -27,29 +28,6 @@ class Piece
 
   def opposite_color
     color == :white ? :black : :white
-  end
-
-  private
-  def check?(board, color) ## REFACTOR!!!!
-    king_pos = find_king(color).position
-
-    board.each do |row|
-      row.each do |piece|
-        next unless piece
-        next if piece.color == color
-        return true if piece.valid_moves.include?(king_pos)
-      end
-    end
-    false
-  end
-
-  def find_king(color)
-    board.each do |row|
-      row.each do |piece|
-        next unless piece
-        return piece if piece.color == color && piece.is_a?(King)
-      end
-    end
   end
 end
 
@@ -98,3 +76,5 @@ class Pawn < Piece
     move_locations
   end
 end
+
+

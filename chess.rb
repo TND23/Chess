@@ -1,8 +1,11 @@
+load './chess_helpers.rb'
 load './pieces.rb'
 load './sliding_pieces.rb'
 load './stepping_pieces.rb'
+
 require 'colorize'
 class Board
+  include ChessHelpers
   attr_reader :board
 
   def initialize
@@ -24,27 +27,14 @@ class Board
     nil
   end
 
-  def check?(color)
-    king_pos = find_king(color).position
-
-    board.each do |row|
-      row.each do |piece|
-        next unless piece
-        next if piece.color == color
-        return true if piece.valid_moves.include?(king_pos)
-      end
-    end
-    false
-  end
-
   def checkmate?(color)
-    return false unless check?(color)
+    return false unless check?(board, color)
     board.each do |row|
       row.each do |piece|
         next unless piece
-        print piece.valid_moves
+        # print piece.valid_moves
         next if piece.opposite_color == color
-        print piece.valid_moves
+        # print piece.valid_moves
         return false if piece.valid_moves.any? { |pos| piece.valid_move?(pos)}
 
       end
@@ -65,14 +55,6 @@ class Board
 
   private
 
-  def find_king(color)
-    board.each do |row|
-      row.each do |piece|
-        next unless piece
-        return piece if piece.color == color && piece.is_a?(King)
-      end
-    end
-  end
 
   def populate_chess_board
     8.times { |index|  board[1][index] = Pawn.new(:black,board, [1,index]) }
@@ -116,10 +98,8 @@ class ChessGame
       break if board.checkmate?(:white)
     end
   end
-
-
-
 end
+
  #opp_color == :white ? :black : :white
 b = ChessGame.new
 b.play
