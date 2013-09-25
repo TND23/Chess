@@ -42,6 +42,15 @@ class Piece
     end
     false
   end
+
+  def find_king(color)
+    board.each do |row|
+      row.each do |piece|
+        next unless piece
+        return piece if piece.color == color && piece.is_a?(King)
+      end
+    end
+  end
 end
 
 class Pawn < Piece
@@ -53,12 +62,12 @@ class Pawn < Piece
     @picture = color == :white ? "\u{2659}" : "\u{265F}"
   end
 
-  def valid_move?(pos)
+  def valid_move_pawn?(pos)
     return true unless board[pos[0]][pos[1]]
   end
 
   def valid_moves
-    move_locations.select{|pos| valid_move?(pos) } + attacking_moves
+    move_locations.select{|pos| valid_move_pawn?(pos) } + attacking_moves
   end
 
   def attacking_moves

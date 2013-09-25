@@ -25,12 +25,16 @@ class Board
     false
   end
 
-  def checkmate?
-    if check?(:white)
-
-
-    elsif check?(:black)
+  def checkmate?(color)
+    return false unless check?(color)
+    board.each do |row|
+      row.each do |piece|
+        next unless piece
+        next if piece.opposite_color == color
+        return false if piece.valid_moves.any? { |pos| piece.valid_move?(pos)}
+      end
     end
+    return true
   end
 
   def move(current_pos, end_pos)

@@ -1,5 +1,5 @@
 class SteppingPiece < Piece
-  def valid_move?(pos)
+  def valid_move_stepping?(pos)
     return true unless board[pos[0]]
     return true unless board[pos[0]][pos[1]]
     if self.color == board[pos[0]][pos[1]].color
@@ -10,7 +10,7 @@ class SteppingPiece < Piece
   end
 
   def valid_moves
-    move_locations.select{|pos| valid_move?(pos)}
+    move_locations.select{|pos| valid_move_stepping?(pos)}
   end
 end
 
