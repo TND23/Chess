@@ -1,5 +1,5 @@
 class Piece
-  attr_reader :color, :board, :position
+  attr_reader :color, :board, :position, :picture
 
   def initialize(color, board, position)
     @color = color
@@ -28,6 +28,7 @@ class Pawn < Piece
   def initialize(color, board, position)
     super(color,board,position)
     @first_move = true
+    @picture = color == :white ? "\u{2659}" : "\u{265F}"
   end
 
   def valid_move?(pos)

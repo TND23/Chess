@@ -16,6 +16,11 @@ class SlidingPiece < Piece
 end
 
 class Rook < SlidingPiece
+  def initialize(color, board, position)
+    super(color, board, position)
+    @picture = color == :white ? "\u{2656}" : "\u{265C}"
+  end
+
   def move_locations
     move_locations = []
     (0..7).each do |index|
@@ -41,6 +46,11 @@ class Rook < SlidingPiece
 end
 
 class Bishop <  SlidingPiece
+  def initialize(color, board, position)
+    super(color, board, position)
+    @picture = color == :white ? "\u{2657}" : "\u{265D}"
+  end
+
   def move_locations
     move_locations = []
     x = position[1]
@@ -84,6 +94,11 @@ class Bishop <  SlidingPiece
 end
 
 class Queen < SlidingPiece
+  def initialize(color, board, position)
+    super(color, board, position)
+    @picture = color == :white ? "\u{2655}" : "\u{265B}"
+  end
+
   def move_locations
     move_locations = []
     move_locations += Bishop.new(nil, board, position).move_locations

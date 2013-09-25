@@ -16,6 +16,11 @@ end
 
 
 class King < SteppingPiece
+  def initialize(color, board, position)
+    super(color, board, position)
+    @picture = color == :white ? "\u{2654}" : "\u{265A}"
+  end
+
   def move_locations
     move_locations = []
     y = position[1]
@@ -28,6 +33,11 @@ class King < SteppingPiece
 end
 
 class Knight < SteppingPiece
+  def initialize(color, board, position)
+    super(color, board, position)
+    @picture = color == :white ? "\u{2658}" : "\u{265E}"
+  end
+
   def move_locations
     delta_move = [[2,1], [-2,1], [2,-1], [-2,-1], [1,2],
                   [1,-2], [-1,2], [-1,-2]]

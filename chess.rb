@@ -57,10 +57,12 @@ end
  #opp_color == :white ? :black : :white
 b = Board.new
 
-# r = Rook.new(:black, b.board, [0,0])
-# p r.move_locations
+
+r = Rook.new(:black, b.board, [0,0])
+p r.picture
 #
-# pawn = Pawn.new(:black, b.board, [1,0])
+# pawn = Pawn.new(:white, b.board, [1,0])
+# p pawn.picture
 # p pawn.move_locations
 
 #b.board[2][5] = King.new(:white, b.board, [2,1])
@@ -70,9 +72,9 @@ p b.check?(:white)
 # bishop = Bishop.new(:black, b.board, [2,3])
 # p bishop.move_locations
 
-# king = King.new(:black, b.board, [0,4])
-# p king.move_locations
-# p king.valid_moves
+king = King.new(:black, b.board, [0,4])
+p king.picture
+
 
 
 # def print_board
