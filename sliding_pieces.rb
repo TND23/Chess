@@ -9,6 +9,10 @@ class SlidingPiece < Piece
     end
     true
   end
+
+  def valid_moves
+    move_locations
+  end
 end
 
 class Rook < SlidingPiece

@@ -19,9 +19,10 @@ class Board
       row.each do |piece|
         next unless piece
         next if piece.color == color
-        return true if piece.move_locations.include?(king_pos)
+        return true if piece.valid_moves.include?(king_pos)
       end
     end
+    false
   end
 
   private
@@ -59,12 +60,12 @@ b = Board.new
 # r = Rook.new(:black, b.board, [0,0])
 # p r.move_locations
 #
-pawn = Pawn.new(:black, b.board, [1,0])
-p pawn.move_locations
+# pawn = Pawn.new(:black, b.board, [1,0])
+# p pawn.move_locations
 
-b.board[2][1] = Queen.new(:white, b.board, [2,1])
+#b.board[2][5] = King.new(:white, b.board, [2,1])
 # p queen.move_locations
-p pawn.valid_moves
+p b.check?(:white)
 
 # bishop = Bishop.new(:black, b.board, [2,3])
 # p bishop.move_locations

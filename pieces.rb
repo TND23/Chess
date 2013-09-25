@@ -48,7 +48,6 @@ class Pawn < Piece
           attacking_moves << [row, col-1]
         end
       rescue
-        puts "noooooo"
       end
     end
     attacking_moves
