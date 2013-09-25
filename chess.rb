@@ -1,7 +1,7 @@
 load './pieces.rb'
 load './sliding_pieces.rb'
 load './stepping_pieces.rb'
-
+require 'colorize'
 class Board
   attr_reader :board
 
@@ -10,6 +10,18 @@ class Board
       Array.new(8)
     }
     populate_chess_board
+    print_pretty_board
+  end
+
+  def print_pretty_board
+    board.each do |row|
+      row.each do |piece|
+        print "[#{piece.picture}]" if piece
+        print "[ ]" unless piece
+      end
+      puts ""
+    end
+    nil
   end
 
   def check?(color)
@@ -30,8 +42,11 @@ class Board
     board.each do |row|
       row.each do |piece|
         next unless piece
+        print piece.valid_moves
         next if piece.opposite_color == color
+        print piece.valid_moves
         return false if piece.valid_moves.any? { |pos| piece.valid_move?(pos)}
+
       end
     end
     return true
@@ -43,7 +58,7 @@ class Board
       board[current_pos[0]][current_pos[1]] = nil
       board[end_pos[0]][end_pos[1]] = piece
     else
-      print "You cannot move there, try again"
+      puts "You cannot move there, try again"
       false
     end
   end
@@ -77,12 +92,37 @@ class Board
     end
   end
 end
- #opp_color == :white ? :black : :white
-b = Board.new
-p "Board before #{b.board[2][1]}\n"
-b.move([1,1], [2,1])
-print b.board[2][1]
 
+class ChessGame
+
+  attr_reader :board
+
+  def initialize
+    @board = Board.new
+    @turn_number = 0
+  end
+
+  def play
+    loop do
+      puts "- - - - - - - - - - - - - -"
+      puts @turn_number % 2 == 0 ? "White to move" : "Black to move"
+      board.print_pretty_board
+      print "What piece do you want to move? "
+      piece_start = gets.chomp.split(',').map(&:to_i)
+      print "Where do you want to move to? "
+      piece_end = gets.chomp.split(',').map(&:to_i)
+      board.move(piece_start, piece_end)
+      break if board.checkmate?(:black)
+      break if board.checkmate?(:white)
+    end
+  end
+
+
+
+end
+ #opp_color == :white ? :black : :white
+b = ChessGame.new
+b.play
 
 # r = Rook.new(:black, b.board, [0,0])
 # p r.picture

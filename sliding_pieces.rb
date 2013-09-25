@@ -1,5 +1,5 @@
 class SlidingPiece < Piece
-  def valid_move?(pos)
+  def valid_move_sliding?(pos)
     #Refactor
     return true unless board[pos[0]]
     if board[pos[0]][pos[1]]
@@ -26,7 +26,7 @@ class Rook < SlidingPiece
     (0..7).each do |index|
       #if board[index,position[index]] == PIECE of any kind
       #Break
-      if valid_move?([index, position[1]])
+      if valid_move_sliding?([index, position[1]])
         move_locations << [index, position[1]]
       else
         break
@@ -34,7 +34,7 @@ class Rook < SlidingPiece
     end
 
     (0..7).each do |index|
-      if valid_move?([position[0], index])
+      if valid_move_sliding?([position[0], index])
         move_locations << [position[0], index]
       else
         break
@@ -57,7 +57,7 @@ class Bishop <  SlidingPiece
     y = position[0]
 
     (1..7).each do |index|
-      if valid_move?([y+index, x + index])
+      if valid_move_sliding?([y+index, x + index])
         move_locations << [y+index, x + index]
       else
         break
@@ -65,7 +65,7 @@ class Bishop <  SlidingPiece
     end
 
     (1..7).each do |index|
-      if valid_move?([y-index, x + index])
+      if valid_move_sliding?([y-index, x + index])
         move_locations <<  [y-index, x + index]
       else
         break
@@ -73,7 +73,7 @@ class Bishop <  SlidingPiece
     end
 
     (1..7).each do |index|
-      if valid_move?([y+index, x - index])
+      if valid_move_sliding?([y+index, x - index])
         move_locations <<  [y+index, x - index]
       else
         break
@@ -81,7 +81,7 @@ class Bishop <  SlidingPiece
     end
 
     (1..7).each do |index|
-      if valid_move?([y-index, x-index])
+      if valid_move_sliding?([y-index, x-index])
         move_locations <<  [y-index, x - index]
       else
         break
