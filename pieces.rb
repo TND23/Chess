@@ -10,14 +10,15 @@ class Piece
   end
 
   def valid_move?(end_pos)
+
     if self.valid_moves.include?(end_pos)
-      start_pos = position
-      self.position = end_pos
-      duped_board = board.dup
+      self_dup = self.dup
+      self_dup.position = end_pos
+      duped_board = deep_dup(board)
       duped_board[position[0]][position[1]] = nil
-      duped_board[end_pos[0]][end_pos[1]] = self
+      duped_board[end_pos[0]][end_pos[1]] = self_dup
       if check?(duped_board, color)
-        self.position = start_pos
+        return false
       else
         return true
       end
@@ -35,7 +36,6 @@ class Pawn < Piece
 
   def initialize(color, board, position)
     super(color,board,position)
-    @first_move = true
     @picture = color == :white ? "\u{2659}" : "\u{265F}"
   end
 
@@ -66,13 +66,23 @@ class Pawn < Piece
     move_locations = []
     case color
     when :black
-      move_locations << [position[0] + 1, position[1]]
-      move_locations << [position[0] + 2, position[1]] if first_move
+      move_locations << [position[0] + 1, position[1]] unless board[position[0] + 1][position[1]]
+      move_locations << [position[0] + 2, position[1]] if first_move?
     when :white
-      move_locations << [position[0] - 1, position[1]]
-      move_locations << [position[0] - 2, position[1]] if first_move
+      move_locations << [position[0] - 1, position[1]] unless board[position[0] - 1][position[1]]
+      move_locations << [position[0] - 2, position[1]] if first_move?
     end
     move_locations
+  end
+
+  def first_move?
+    case color
+    when :white
+      return true if position[0] == 6
+    when :black
+      return true if position[0] == 1
+    end
+    false
   end
 end
 

@@ -1,6 +1,6 @@
 module ChessHelpers
-  def check?(board, color) ## REFACTOR!!!!
-    king_pos = find_king(board, color).position
+  def check?(board, color)
+    king_pos = find_king(board,color).position
 
     board.each do |row|
       row.each do |piece|
@@ -26,14 +26,26 @@ module ChessHelpers
     board.each do |row|
       row.each do |piece|
         next unless piece
-        # print piece.valid_moves
         next if piece.opposite_color == color
-        # print piece.valid_moves
-        return false if piece.valid_moves.any? { |pos| piece.valid_move?(pos)}
-
+        piece.valid_moves.each do |position|
+          return false if piece.valid_move?(position)
+        end
       end
     end
-    return true
+    puts "Checkmate"
+    true
   end
 
+  def deep_dup(board)
+    deep_dup = Array.new(8){
+      Array.new(8)
+    }
+    board.each_with_index do |row, row_index|
+      row.each_with_index do |piece, col_index|
+        deep_dup[row_index][col_index] = piece.dup if piece
+        deep_dup[row_index][col_index] = nil unless piece
+      end
+    end
+    deep_dup
+  end
 end
