@@ -12,10 +12,7 @@ class Board
       Array.new(8)
     }
     populate_chess_board
-    print_pretty_board
   end
-
-
 
   def print_pretty_board
     print "   "
@@ -31,14 +28,24 @@ class Board
     nil
   end
 
-  def move(current_pos, end_pos)
+  def move(current_pos, end_pos, color)
     piece = board[current_pos[0]][current_pos[1]]
-    if piece.valid_move?(end_pos)
-      board[current_pos[0]][current_pos[1]] = nil
-      board[end_pos[0]][end_pos[1]] = piece
-      piece.position = [end_pos[0], end_pos[1]]
+    unless piece
+      puts "There is no piece there."
+      return false
+    end
+    if piece.color == color
+      if piece.valid_move?(end_pos)
+        board[current_pos[0]][current_pos[1]] = nil
+        board[end_pos[0]][end_pos[1]] = piece
+        piece.position = [end_pos[0], end_pos[1]]
+        true
+      else
+        puts "You cannot move there, try again"
+        false
+      end
     else
-      puts "You cannot move there, try again"
+      puts "It's not your turn, #{piece.color}."
       false
     end
   end
@@ -78,15 +85,15 @@ class ChessGame
       break if checkmate?(board.board, :white)
       break if checkmate?(board.board, :black)
       puts "- - - - - - - - - - - - - -"
-      puts @turn_number % 2 == 0 ? "White to move" : "Black to move"
+      current_player = @turn_number % 2 == 0 ? :white : :black
       board.print_pretty_board
+      puts "- - - - - - - - - - - - - -"
       print "What piece do you want to move? "
       piece_start = gets.chomp.split(',').map(&:to_i)
       print "Where do you want to move to? "
       piece_end = gets.chomp.split(',').map(&:to_i)
-      board.move(piece_start, piece_end)
 
-
+      @turn_number += 1 if board.move(piece_start, piece_end, current_player)
     end
   end
 end

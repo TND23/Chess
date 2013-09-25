@@ -1,15 +1,19 @@
 module ChessHelpers
   def check?(board, color)
-    king_pos = find_king(board,color).position
-
-    board.each do |row|
-      row.each do |piece|
-        next unless piece
-        next if piece.color == color
-        return true if piece.valid_moves.include?(king_pos)
+    begin
+      king_pos = find_king(board,color).position
+      board.each do |row|
+        row.each do |piece|
+          next unless piece
+          next if piece.color == color
+          return true if piece.valid_moves.include?(king_pos)
+        end
       end
+      false
+    rescue
+      puts "Checkmate"
+      exit
     end
-    false
   end
 
   def find_king(board, color)
