@@ -3,7 +3,6 @@ load './pieces.rb'
 load './sliding_pieces.rb'
 load './stepping_pieces.rb'
 
-require 'colorize'
 class Board
   include ChessHelpers
   attr_reader :board
@@ -17,7 +16,10 @@ class Board
   end
 
   def print_pretty_board
-    board.each do |row|
+    print "   "
+    8.times { |i| print "[#{i}]"}
+    board.each_with_index do |row, index|
+      print "\n[#{index}]"
       row.each do |piece|
         print "[#{piece.picture}]" if piece
         print "[ ]" unless piece
@@ -27,26 +29,12 @@ class Board
     nil
   end
 
-  def checkmate?(color)
-    return false unless check?(board, color)
-    board.each do |row|
-      row.each do |piece|
-        next unless piece
-        # print piece.valid_moves
-        next if piece.opposite_color == color
-        # print piece.valid_moves
-        return false if piece.valid_moves.any? { |pos| piece.valid_move?(pos)}
-
-      end
-    end
-    return true
-  end
-
   def move(current_pos, end_pos)
     piece = board[current_pos[0]][current_pos[1]]
     if piece.valid_move?(end_pos)
       board[current_pos[0]][current_pos[1]] = nil
       board[end_pos[0]][end_pos[1]] = piece
+      p piece
     else
       puts "You cannot move there, try again"
       false
@@ -54,7 +42,6 @@ class Board
   end
 
   private
-
 
   def populate_chess_board
     8.times { |index|  board[1][index] = Pawn.new(:black,board, [1,index]) }
@@ -76,7 +63,7 @@ class Board
 end
 
 class ChessGame
-
+  include ChessHelpers
   attr_reader :board
 
   def initialize
@@ -94,8 +81,12 @@ class ChessGame
       print "Where do you want to move to? "
       piece_end = gets.chomp.split(',').map(&:to_i)
       board.move(piece_start, piece_end)
-      break if board.checkmate?(:black)
-      break if board.checkmate?(:white)
+
+      puts "--debugging---"
+      puts "Check: #{check?(board.board, :white)}, #{check?(board.board, :black)}\n"
+      puts "Checkmates: #{checkmate?(board.board, :white)}, #{checkmate?(board.board, :black)}\n"
+      break if checkmate?(board.board, :black)
+      break if checkmate?(board.board, :white)
     end
   end
 end

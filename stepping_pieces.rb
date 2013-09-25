@@ -1,8 +1,7 @@
 class SteppingPiece < Piece
   def valid_move_stepping?(pos)
     return true unless board[pos[0]]
-    return true unless board[pos[0]][pos[1]]
-    if self.color == board[pos[0]][pos[1]].color
+    if board[pos[0]][pos[1]] && self.color == board[pos[0]][pos[1]].color
       false
     else
       true
@@ -41,8 +40,8 @@ class Knight < SteppingPiece
   def move_locations
     delta_move = [[2,1], [-2,1], [2,-1], [-2,-1], [1,2],
                   [1,-2], [-1,2], [-1,-2]]
-    x = position[1]
-    y = position[0]
+    y = position[1]
+    x = position[0]
     move_locations = []
     delta_move.each do |delta_x, delta_y|
       move_locations << [delta_x + x, delta_y + y]

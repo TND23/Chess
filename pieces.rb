@@ -12,13 +12,12 @@ class Piece
   def valid_move?(end_pos)
     if self.valid_moves.include?(end_pos)
       start_pos = position
-      position = end_pos
+      self.position = end_pos
       duped_board = board.dup
       duped_board[position[0]][position[1]] = nil
       duped_board[end_pos[0]][end_pos[1]] = self
-      if check?(board, color)
-        piece.position = start_pos
-        return false
+      if check?(duped_board, color)
+        self.position = start_pos
       else
         return true
       end

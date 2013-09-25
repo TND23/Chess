@@ -1,6 +1,6 @@
 module ChessHelpers
   def check?(board, color) ## REFACTOR!!!!
-    king_pos = find_king(color).position
+    king_pos = find_king(board, color).position
 
     board.each do |row|
       row.each do |piece|
@@ -12,7 +12,7 @@ module ChessHelpers
     false
   end
 
-  def find_king(color)
+  def find_king(board, color)
     board.each do |row|
       row.each do |piece|
         next unless piece
@@ -20,4 +20,20 @@ module ChessHelpers
       end
     end
   end
+
+  def checkmate?(board, color)
+    return false unless check?(board, color)
+    board.each do |row|
+      row.each do |piece|
+        next unless piece
+        # print piece.valid_moves
+        next if piece.opposite_color == color
+        # print piece.valid_moves
+        return false if piece.valid_moves.any? { |pos| piece.valid_move?(pos)}
+
+      end
+    end
+    return true
+  end
+
 end
