@@ -59,18 +59,19 @@ b = Board.new
 # r = Rook.new(:black, b.board, [0,0])
 # p r.move_locations
 #
-# pawn = Pawn.new(:black, b.board, [1,0])
-# p pawn.move_locations
+pawn = Pawn.new(:black, b.board, [1,0])
+p pawn.move_locations
 
-# queen = Queen.new(:black, b.board, [2,3])
+b.board[2][1] = Queen.new(:white, b.board, [2,1])
 # p queen.move_locations
+p pawn.valid_moves
 
 # bishop = Bishop.new(:black, b.board, [2,3])
 # p bishop.move_locations
 
-king = King.new(:black, b.board, [0,4])
-p king.move_locations
-p king.valid_moves
+# king = King.new(:black, b.board, [0,4])
+# p king.move_locations
+# p king.valid_moves
 
 
 # def print_board

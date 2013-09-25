@@ -12,10 +12,13 @@ class Piece
 
 
       #Check if you are in check
-
     else
       false
     end
+  end
+
+  def opposite_color
+    color == :white ? :black : :white
   end
 end
 
@@ -25,6 +28,30 @@ class Pawn < Piece
   def initialize(color, board, position)
     super(color,board,position)
     @first_move = true
+  end
+
+  def valid_move?(pos)
+    return true unless board[pos[0]][pos[1]]
+  end
+
+  def valid_moves
+    move_locations.select{|pos| valid_move?(pos) } + attacking_moves
+  end
+
+  def attacking_moves
+    attacking_moves = []
+    move_locations.each do |row,col|
+      begin
+        if board[row][col+1].color == opposite_color
+          attacking_moves << [row, col+1]
+        elsif board[row][col-1].color == opposite_color
+          attacking_moves << [row, col-1]
+        end
+      rescue
+        puts "noooooo"
+      end
+    end
+    attacking_moves
   end
 
   def move_locations
@@ -38,6 +65,5 @@ class Pawn < Piece
       move_locations << [position[0] - 2, position[1]] if first_move
     end
     move_locations
-    #Write code to make attacking stuff and ensure cannot take in front
   end
 end
