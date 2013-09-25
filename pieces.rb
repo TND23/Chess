@@ -1,5 +1,6 @@
 class Piece
-  attr_reader :color, :board, :position, :picture
+  attr_reader :color, :board, :picture
+  attr_accessor :position
 
   def initialize(color, board, position)
     @color = color
@@ -7,18 +8,39 @@ class Piece
     @position = position
   end
 
-  def valid_move?(pos)
-    if self.move_locations.include?(pos)
-
-
-      #Check if you are in check
-    else
-      false
+  def valid_move?(end_pos)
+    if self.valid_moves.include?(end_pos)
+      start_pos = position
+      position = end_pos
+      duped_board = board.dup
+      duped_board[position[0]][position[1]] = nil
+      duped_board[end_pos[0]][end_pos[1]] = self
+      if check?(board, color)
+        piece.position = start_pos
+        return false
+      else
+        return true
+      end
     end
+    false
   end
 
   def opposite_color
     color == :white ? :black : :white
+  end
+
+  private
+  def check?(board, color) ## REFACTOR!!!!
+    king_pos = find_king(color).position
+
+    board.each do |row|
+      row.each do |piece|
+        next unless piece
+        next if piece.color == color
+        return true if piece.valid_moves.include?(king_pos)
+      end
+    end
+    false
   end
 end
 
