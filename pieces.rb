@@ -10,25 +10,25 @@ class Piece
   end
 
   def valid_move?(end_pos)
-
-    if self.valid_moves.include?(end_pos)
-      self_dup = self.dup
-      self_dup.position = end_pos
+    if valid_moves.include?(end_pos)
       duped_board = deep_dup(board)
-      duped_board[position[0]][position[1]] = nil
+      duped_board[self.position[0]][self.position[1]] = nil
+
+      self_dup = self.piece_deep_dup(duped_board, end_pos)
+
       duped_board[end_pos[0]][end_pos[1]] = self_dup
-      if check?(duped_board, color)
-        return false
-      else
-        return true
-      end
+      return check?(duped_board, color) ? false : true
     end
-    false
   end
 
   def opposite_color
     color == :white ? :black : :white
   end
+
+  def piece_deep_dup(board, pos)
+    self.class.new(color, board, pos)
+  end
+
 end
 
 class Pawn < Piece
@@ -85,5 +85,3 @@ class Pawn < Piece
     false
   end
 end
-
-

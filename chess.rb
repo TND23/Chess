@@ -34,7 +34,11 @@ class Board
       puts "There is no piece there."
       return false
     end
+
+    print board[4][7].valid_moves if board[4][7]
+
     if piece.color == color
+      print piece.valid_moves
       if piece.valid_move?(end_pos)
         board[current_pos[0]][current_pos[1]] = nil
         board[end_pos[0]][end_pos[1]] = piece
@@ -84,6 +88,7 @@ class ChessGame
     loop do
       break if checkmate?(board.board, :white)
       break if checkmate?(board.board, :black)
+
       puts "- - - - - - - - - - - - - -"
       current_player = @turn_number % 2 == 0 ? :white : :black
       board.print_pretty_board
@@ -92,7 +97,6 @@ class ChessGame
       piece_start = gets.chomp.split(',').map(&:to_i)
       print "Where do you want to move to? "
       piece_end = gets.chomp.split(',').map(&:to_i)
-
       @turn_number += 1 if board.move(piece_start, piece_end, current_player)
     end
   end
